@@ -15,20 +15,36 @@ namespace ORM_Dapper
             string connString = config.GetConnectionString("DefaultConnection");
 
             IDbConnection conn = new MySqlConnection(connString);
-            var repo = new DapperDepartmentRepository(conn);
-            Console.WriteLine("Type new Department name");
+            
+            #region Department Section
+            // var repo = new DapperDepartmentRepository(conn);
+            // Console.WriteLine("Type new Department name");
+            //
+            // var newDepartment = Console.ReadLine();
+            //
+            // repo.InsertDepartment(newDepartment);
+            //
+            // var departments = repo.GetAllDepartments();
+            //
+            // foreach (var dept in departments)
+            // {
+            //     Console.WriteLine(dept.Name);
+            // }
+            #endregion
 
-            var newDepartment = Console.ReadLine();
-
-            repo.InsertDepartment(newDepartment);
-
-            var departments = repo.GetAllDepartments();
-
-            foreach (var dept in departments)
+            var productRepository = new DapperProductRepository(conn);
+            var products = productRepository.GetAllProducts();
+            foreach (var product in products)
             {
-                Console.WriteLine(dept.Name);
+                Console.WriteLine(product.ProductID);
+                Console.WriteLine(product.Name);
+                Console.WriteLine(product.Price);
+                Console.WriteLine(product.CategoryID);
+                Console.WriteLine(product.OnSale);
+                Console.WriteLine(product.StockLevel);
+                Console.WriteLine();
+                Console.WriteLine();
             }
-
         }
     }
 }
