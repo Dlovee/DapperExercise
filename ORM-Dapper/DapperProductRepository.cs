@@ -31,12 +31,20 @@ public class DapperProductRepository : IProductRepository
                         CategoryID = @CategoryID, 
                         OnSale = @OnSale, 
                         StockLevel = @StockLevel 
-                    WHERE ProductID = @ProductID", product);
+                    WHERE ProductID = @ProductID",
+            product);
     }
 
 
     public void CreateProduct(string name, double price, int categoryID)
     {
         throw new NotImplementedException();
+    }
+
+    public void DeleteProduct(int id)
+    {
+        _conn.Execute("DELETE FROM sales WHERE ProductID = @id;", new {id = id});
+        _conn.Execute("DELETE FROM reviews WHERE ProductID = @id;",new {id = id});
+        _conn.Execute("DELETE FROM products WHERE ProductID = @id;", new {id = id});
     }
 }
