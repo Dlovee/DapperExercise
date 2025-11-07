@@ -57,6 +57,7 @@ namespace ORM_Dapper
                 Console.WriteLine(product.StockLevel);
                 Console.WriteLine();
                 Console.WriteLine();
+                Console.WriteLine();
             }
         }
     }
