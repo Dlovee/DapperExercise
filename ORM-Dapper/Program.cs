@@ -17,24 +17,25 @@ namespace ORM_Dapper
             IDbConnection conn = new MySqlConnection(connString);
             
             #region Department Section
-            // var repo = new DapperDepartmentRepository(conn);
-            // Console.WriteLine("Type new Department name");
-            //
-            // var newDepartment = Console.ReadLine();
-            //
-            // repo.InsertDepartment(newDepartment);
-            //
-            // var departments = repo.GetAllDepartments();
-            //
-            // foreach (var dept in departments)
-            // {
-            //     Console.WriteLine(dept.Name);
-            // }
+            var repo = new DapperDepartmentRepository(conn);
+            Console.WriteLine("Here are the current departments:");
+            Console.WriteLine("Please press enter...");
+            
+            var newDepartment = Console.ReadLine();
+            
+            repo.InsertDepartment(newDepartment);
+            
+            var departments = repo.GetAllDepartments();
+            
+            foreach (var dept in departments)
+            {
+                Console.WriteLine(dept.Name);
+            }
             #endregion
 
             var productRepository = new DapperProductRepository(conn);
             
-            // var productToUpdate = productRepository.GetProduct(940);
+             //var productToUpdate = productRepository.GetProduct(940);
             //
             // productToUpdate.Name = "UPDATED!!!";
             // productToUpdate.Price = 12.99;
@@ -44,7 +45,10 @@ namespace ORM_Dapper
             //
             // productRepository.UpdateProduct(productToUpdate);
 
-            productRepository.DeleteProduct(940);
+            productRepository.CreateProduct("newStuff", 20, 1);
+            productRepository.DeleteProductByName("newStuff");
+            productRepository.CreateProduct("newStuff", 20, 1);
+
             
             var products = productRepository.GetAllProducts();
             foreach (var product in products)
@@ -59,6 +63,8 @@ namespace ORM_Dapper
                 Console.WriteLine();
                 Console.WriteLine();
             }
+
+            Console.ReadLine();
         }
     }
 }

@@ -19,7 +19,7 @@ public class DapperProductRepository : IProductRepository
 
     public Product GetProduct(int id)
     {
-        return _conn.QuerySingle<Product>("SELECT * FROM products WHERE ProductID = @id;", 
+        return _conn.QueryFirstOrDefault<Product>("SELECT * FROM products WHERE ProductID = @id;", 
             new { id = id});
     }
 
@@ -34,11 +34,12 @@ public class DapperProductRepository : IProductRepository
                     WHERE ProductID = @ProductID",
             product);
     }
-
+    
 
     public void CreateProduct(string name, double price, int categoryID)
     {
-        throw new NotImplementedException();
+        _conn.Execute("INSERT INTO products (Name, Price, CategoryID) VALUES (@name, @price, @categoryID);",
+            new { Name = name, Price = price, CategoryID = categoryID });
     }
 
     public void DeleteProduct(int id)
@@ -47,4 +48,12 @@ public class DapperProductRepository : IProductRepository
         _conn.Execute("DELETE FROM reviews WHERE ProductID = @id;",new {id = id});
         _conn.Execute("DELETE FROM products WHERE ProductID = @id;", new {id = id});
     }
+    
+    public void DeleteProductByName(string name)
+    {
+        _conn.Execute("DELETE FROM sales WHERE ProductID IN (SELECT ProductID FROM products WHERE Name = @name);", new { name });
+        _conn.Execute("DELETE FROM reviews WHERE ProductID IN (SELECT ProductID FROM products WHERE Name = @name);", new { name });
+        _conn.Execute("DELETE FROM products WHERE Name = @name;", new { name });
+    }
+
 }
